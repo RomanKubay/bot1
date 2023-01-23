@@ -69,12 +69,12 @@ def get_stats():
 def add_action(action:str):
     global last_actions
     today = datetime.datetime.today()
-    action = f'({today.hour}:{today.minute}:{today.second}) {action}'
+    action = f'\n({today.hour}:{today.minute}:{today.second}) {action};'
     last_actions.insert(0, action)
-    if len(last_actions) >= 80: last_actions.pop()
+    if len(last_actions) >= config.max_history_leng: last_actions.pop()
 
 def get_last_actions() -> str:
     global last_actions
     text = f'🛃 Останні дії користувачів ({len(last_actions)} дій)\n'
-    for a in last_actions: text += '\n' + a
+    for a in last_actions: text += a
     return text

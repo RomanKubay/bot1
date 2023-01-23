@@ -135,27 +135,32 @@ async def callback(call: types.CallbackQuery):
                     await call.message.delete()
                     await call.answer(f"{data[1]} - 🟢 Часто")
                     await db.sort_word(data[1], 0, call.from_user)
+                    db.add_action(f'📝 {call.from_user.full_name} перемістив(ла) слово "{data[1]}" до 🟢 Часто')
                 case "rarely":
                     await next_sort(call.from_user.id)
                     await call.message.delete()
                     await call.answer(f"{data[1]} - 🟠 Рідко")
                     await db.sort_word(data[1], 1, call.from_user)
+                    db.add_action(f'📝 {call.from_user.full_name} перемістив(ла) слово "{data[1]}" до 🟠 Рідко')
                 case "never":
                     await next_sort(call.from_user.id)
                     await call.message.delete()
                     await call.answer(f"{data[1]} - 🔴 Ніколи")
                     await db.sort_word(data[1], 2, call.from_user)
+                    db.add_action(f'📝 {call.from_user.full_name} перемістив(ла) слово "{data[1]}" до 🔴 Ніколи')
                     
                 case "yes":
                     await call.message.delete()
                     await call.answer(f"✅ Слово {data[1]} записано!")
                     await db.check_yes(data[1], call.from_user.id)
                     await next_check(call.from_user)
+                    db.add_action(f'🔎 {call.from_user.full_name} схвалив слово "{data[1]}" у {("🟢 Часто", "🟠 Рідко", "🔴 Ніколи")[int(data[2])]}')
                 case "no":
                     await call.message.delete()
                     await call.answer(f'❌ Слово {data[1]} повернуто назад для сортування!')
                     await db.check_no(data[1], data[2], call.from_user.id)
                     await next_check(call.from_user)
+                    db.add_action(f'🔎 {call.from_user.full_name} вважає, що слову "{data[1]}" не місце у {("🟢 Часто", "🟠 Рідко", "🔴 Ніколи")[int(data[2])]}')
 
                 case "info":
                     await call.message.answer(get_info(data[1]), reply_markup=kb.close)
