@@ -5,9 +5,13 @@ import datetime
 from random import randint
 from requests_html import HTMLSession
 
+import asyncio
+loop = asyncio.new_event_loop()
+asyncio.set_event_loop(loop)
+
 import config
-import database as db
 import keyboards as kb
+import database as db
 
 # Load bot
 bot = Bot(token=config.API_KEY)
