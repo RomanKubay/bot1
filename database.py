@@ -69,7 +69,9 @@ def get_stats():
 def add_action(action:str):
     global last_actions
     today = datetime.datetime.today()
-    action = f'\n({today.hour}:{today.minute}:{today.second}) {action};'
+    hour = today.hour + 2
+    if hour >= 24: hour =- today.hour
+    action = f'\n({hour}:{today.minute}:{today.second}) {action};'
     last_actions.insert(0, action)
     if len(last_actions) >= config.max_history_leng: last_actions.pop()
 
