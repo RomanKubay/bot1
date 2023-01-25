@@ -13,11 +13,13 @@ menu = InlineKeyboardMarkup(inline_keyboard=
         ])
 
 def check(word:str, lst:int): # lst - id списку слів (often, rarely, never)
-    return InlineKeyboardMarkup(inline_keyboard=
+    kb = InlineKeyboardMarkup(inline_keyboard=
         [
+            [InlineKeyboardButton('✅ Так', callback_data=f"yes_{word}_{lst}")],
             [
-                InlineKeyboardButton('✅ Так', callback_data=f"yes_{word}_{lst}"),
-                InlineKeyboardButton('❌ Ні', callback_data=f"no_{word}_{lst}"),
+                InlineKeyboardButton('🟢 Часто', callback_data=f"no_{word}_{lst}_0"),
+                InlineKeyboardButton('🟠 Рідко', callback_data=f"no_{word}_{lst}_1"),
+                InlineKeyboardButton('🔴 Ніколи', callback_data=f"no_{word}_{lst}_2"),
             ],
             [
                 InlineKeyboardButton('🤷🏼‍♀️ Не знаю', callback_data="start_check"),
@@ -25,6 +27,8 @@ def check(word:str, lst:int): # lst - id списку слів (often, rarely, n
             ],
             [InlineKeyboardButton('◄ Назад', callback_data="back")]
         ])
+    kb.inline_keyboard[1].pop(lst)
+    return kb
 
 def sort(word:str):
     return InlineKeyboardMarkup(inline_keyboard=
@@ -37,6 +41,24 @@ def sort(word:str):
             [
                 InlineKeyboardButton('🤷🏼‍♀️ Не знаю', callback_data="start_sort"),
                 InlineKeyboardButton('❔ Про слово', callback_data=f"info_{word}"),
+            ],
+            [InlineKeyboardButton('◄ Назад', callback_data="back")]
+        ])
+
+def reload(reload_data:str):
+    return InlineKeyboardMarkup(inline_keyboard=
+        [
+            [
+                InlineKeyboardButton('🔁 Оновити', callback_data=reload_data),
+                InlineKeyboardButton('◄ Назад', callback_data="back")
+            ]
+        ])
+
+last = InlineKeyboardMarkup(inline_keyboard=
+        [
+            [
+                InlineKeyboardButton('🔁 Оновити', callback_data="last"),
+                InlineKeyboardButton('↕️ Більше', callback_data="last_full")
             ],
             [InlineKeyboardButton('◄ Назад', callback_data="back")]
         ])
